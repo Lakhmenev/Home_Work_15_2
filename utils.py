@@ -28,9 +28,13 @@ def get_db_result(sqlite_query):
 
 
 def get_data_animal_id(animal_id):
-    sql_query = (""" SELECT animals_normal.id, dict_animal_types.name_type,
-                    animals_normal.name, dict_breeds.name_breed, dict_colors1.name_color  as color_1,
-                    dict_colors2.name_color  as color_2,
+    sql_query = (""" SELECT
+                    animals_normal.id,
+                    dict_animal_types.name_type,
+                    animals_normal.name,
+                    dict_breeds.name_breed,
+                    col1.name_color ,
+                    col2.name_color,
                     dict_outcome_subtype.name_subtype,
                     dict_outcome_type.name_outcome_type,
                     animals_normal.date_of_birth, animals_normal.outcome_month, animals_normal.outcome_year,  
@@ -40,8 +44,10 @@ def get_data_animal_id(animal_id):
                     LEFT JOIN dict_age_measurement ON age_animals.age_measure_id  = dict_age_measurement.id
                     LEFT JOIN dict_breeds ON animals_normal.breed_id  = dict_breeds.id
                     LEFT JOIN dict_animal_types ON animals_normal.animal_type_id  = dict_animal_types.id
-                    LEFT JOIN dict_colors1 ON animals_normal.one_color_id = dict_colors1.id 
-                    LEFT JOIN dict_colors2 ON animals_normal.two_color_id = dict_colors2.id
+                    LEFT JOIN dict_colors as col1
+                           ON col1.id = animals_normal.one_color_id 
+                    LEFT JOIN dict_colors as col2
+                           ON col2.id = animals_normal.two_color_id  
                     LEFT JOIN dict_outcome_subtype ON animals_normal.outcome_subtype_id  = dict_outcome_subtype.id
                     LEFT JOIN dict_outcome_type ON animals_normal.outcome_type_id = dict_outcome_type.id
                 """)
